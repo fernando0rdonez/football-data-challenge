@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { LeagueModule } from './league/league.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { TeamsModule } from './modules/teams/teams.module';
+import { PlayersModule } from './modules/players/players.module';
+import { CompetitionsModule } from './modules/competitions/competitions.module';
 
 @Module({
   imports: [
@@ -11,8 +13,9 @@ import { join } from 'path';
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
-    ,
-    LeagueModule,
+    TeamsModule,
+    PlayersModule,
+    CompetitionsModule,
   ],
   controllers: [],
   providers: [],
