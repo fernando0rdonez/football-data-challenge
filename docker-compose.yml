@@ -1,0 +1,12 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: secret_user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: footballdata
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
