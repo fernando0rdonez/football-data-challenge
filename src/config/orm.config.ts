@@ -1,5 +1,8 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { config } from 'dotenv';
+import { Competition } from 'src/modules/competitions/competition.entity';
+import { Player } from 'src/modules/players/player.entity';
+import { Team } from 'src/modules/teams/team.entity';
 config();
 
 export const getConnectionData: TypeOrmModuleOptions = {
@@ -13,6 +16,6 @@ export const getConnectionData: TypeOrmModuleOptions = {
   synchronize: true,
   migrationsRun: false,
   logging: true,
-  entities: [__dirname + '/../module/**/*.entity.[tj]s'],
-  migrations: [__dirname + '/../module/migration/**/*.[tj]s'],
+  entities: [Competition, Team, Player],
+  migrations: [__dirname + '/../module/migration/*.[tj]s'],
 };

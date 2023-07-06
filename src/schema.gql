@@ -19,7 +19,7 @@ type Player {
   nationality: String!
 
   """Team that the player belong"""
-  team: Team!
+  team: Team
 }
 
 type Competition {
@@ -37,6 +37,11 @@ type Competition {
 
   """List of teams that belongs to the competitions"""
   teams: [Team!]
+}
+
+type ResponseImport {
+  """Name of the area that the competition belongs"""
+  message: String!
 }
 
 type Team {
@@ -72,7 +77,7 @@ type Query {
 
 type Mutation {
   createTeam(createTeamInput: CreateTeamInput!): Team!
-  importLeague(leagueCode: String!): Competition!
+  importLeague(leagueCode: String!): ResponseImport!
 }
 
 input CreateTeamInput {

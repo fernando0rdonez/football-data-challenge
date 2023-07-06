@@ -7,11 +7,15 @@
 
 ```bash
 $ npm install
+
 ```
 
 ## Running the app
 
 ```bash
+# run database container 
+$ docker-compose up -d 
+
 # development
 $ npm run start
 

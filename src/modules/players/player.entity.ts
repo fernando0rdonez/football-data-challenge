@@ -1,7 +1,8 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Team } from 'src/modules/teams/entities/team.entity';
-import { Column, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Team } from 'src/modules/teams/team.entity';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
+@Entity()
 @ObjectType()
 export class Player {
   @PrimaryColumn()
@@ -24,8 +25,9 @@ export class Player {
   @Field(() => String, { description: 'Nationality of the player' })
   nationality: string;
 
-  @ManyToOne(() => Team, (team) => team.players)
+  @ManyToOne(() => Team, (team) => team.players, { nullable: true })
   @Field(() => Team, {
+    nullable: true,
     description: 'Team that the player belong',
   })
   team: Team;

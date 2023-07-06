@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Team } from 'src/modules/teams/entities/team.entity';
+import { Team } from 'src/modules/teams/team.entity';
 import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
@@ -29,4 +29,12 @@ export class Competition {
     description: 'List of teams that belongs to the competitions',
   })
   teams?: Team[];
+}
+
+@ObjectType()
+export class ResponseImport {
+  @Field(() => String, {
+    description: 'Name of the area that the competition belongs',
+  })
+  message: string;
 }
