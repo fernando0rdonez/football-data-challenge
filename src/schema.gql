@@ -1,0 +1,96 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Player {
+  """Player's id"""
+  id: Int!
+
+  """Name of the player"""
+  name: String!
+
+  """Position of the player"""
+  position: String!
+
+  """Date of birth day"""
+  dateOfBirth: String!
+
+  """Nationality of the player"""
+  nationality: String!
+
+  """Team that the player belong"""
+  team: Team!
+}
+
+type Competition {
+  """id of the competition"""
+  id: Int!
+
+  """Name of the competition"""
+  name: String!
+
+  """Code of the competition"""
+  code: String!
+
+  """Name of the area that the competition belongs"""
+  areaName: String!
+
+  """List of teams that belongs to the competitions"""
+  teams: [Team!]
+}
+
+type Team {
+  """team's id"""
+  id: Int!
+
+  """Name of the team"""
+  name: String!
+
+  """tla of the team"""
+  tla: String!
+
+  """short Name of the team"""
+  shortName: String!
+
+  """Area's Name of the team"""
+  areaName: String!
+
+  """Address of the team"""
+  address: String!
+
+  """Player of the team"""
+  players: [Player!]
+
+  """Player of the team"""
+  competitions: [Competition!]!
+}
+
+type Query {
+  team(teamName: String!): Team!
+  player(leagueCode: String!): Player!
+}
+
+type Mutation {
+  createTeam(createTeamInput: CreateTeamInput!): Team!
+  importLeague(leagueCode: String!): Competition!
+}
+
+input CreateTeamInput {
+  """team's id"""
+  id: Int!
+
+  """Name of the team"""
+  name: String!
+
+  """tla of the team"""
+  tla: String!
+
+  """short Name of the team"""
+  shortName: String!
+
+  """Area's Name of the team"""
+  areaName: String!
+
+  """Address of the team"""
+  address: String!
+}

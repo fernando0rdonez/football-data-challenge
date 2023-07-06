@@ -10,7 +10,7 @@ export const getConnectionData: TypeOrmModuleOptions = {
   username: process.env.TYPEORM_USERNAME.toString(),
   password: process.env.TYPEORM_PASSWORD.toString(),
   database: process.env.TYPEORM_DATABASE.toString(),
-  synchronize: false,
+  synchronize: true,
   migrationsRun: false,
   logging: true,
   entities: [__dirname + '/../module/**/*.entity.[tj]s'],
