@@ -7,7 +7,7 @@ import { PlayersModule } from '../players/players.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Team]), PlayersModule],
-  exports: [TeamsService],
+  exports: [TeamsService, TeamsResolver],
   providers: [TeamsResolver, TeamsService],
 })
 export class TeamsModule {}

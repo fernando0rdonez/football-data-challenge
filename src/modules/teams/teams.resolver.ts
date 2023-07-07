@@ -1,4 +1,11 @@
-import { Resolver, Query, Args, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Args,
+  ResolveField,
+  Parent,
+  Int,
+} from '@nestjs/graphql';
 import { TeamsService } from './teams.service';
 import { Team } from './team.entity';
 import { Player } from '../players/player.entity';
@@ -10,6 +17,11 @@ export class TeamsResolver {
   @Query(() => [Team], { name: 'team' })
   team(@Args('teamName', { type: () => String }) teamName: string) {
     return this.teamsService.findByName(teamName);
+  }
+
+  @Query(() => [Team], { name: 'teamCompetition' })
+  teamCompetition(@Args('idLeague', { type: () => Int }) idLeague: number) {
+    return this.teamsService.findByLeagueId(idLeague);
   }
 
   @ResolveField(() => [Player])

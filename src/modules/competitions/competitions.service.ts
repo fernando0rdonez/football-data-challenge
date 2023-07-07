@@ -35,4 +35,10 @@ export class CompetitionsService {
     const teamIds = league.teams.map((team) => team.id);
     return this.playersService.findByTeamId(teamIds);
   }
+
+  async getCompetition(leageCode: string) {
+    return await this.competitionRepository.findOne({
+      where: { code: leageCode },
+    });
+  }
 }

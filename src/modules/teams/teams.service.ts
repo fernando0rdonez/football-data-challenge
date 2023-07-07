@@ -60,4 +60,12 @@ export class TeamsService {
   async players(idTeam: number) {
     return this.playerService.findByTeamId([idTeam]);
   }
+
+  async findByLeagueId(leagueId: number) {
+    return await this.teamRepository
+      .createQueryBuilder('team')
+      .innerJoin('team.competitions', 'competitions')
+      .where('competitions.id = :leagueId', { leagueId })
+      .getMany();
+  }
 }

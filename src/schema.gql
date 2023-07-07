@@ -37,7 +37,6 @@ type Competition {
 
   """List of teams that belongs to the competitions"""
   teams: [Team!]
-  players: [Player!]!
 }
 
 type ResponseImport {
@@ -73,7 +72,9 @@ type Team {
 
 type Query {
   team(teamName: String!): [Team!]!
+  teamCompetition(idLeague: Int!): [Team!]!
   players(leagueCode: String!): [Player!]!
+  competition(leagueCode: String!): Competition!
 }
 
 type Mutation {
