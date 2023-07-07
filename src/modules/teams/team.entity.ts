@@ -17,23 +17,23 @@ export class Team {
   @Field(() => Int, { description: `team's id` })
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { description: 'Name of the team' })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { description: 'tla of the team' })
   tla: string;
 
-  @Column({ name: 'short_name' })
+  @Column({ name: 'short_name', nullable: true })
   @Field(() => String, { description: 'short Name of the team' })
   shortName: string;
 
-  @Column({ name: 'area_name' })
+  @Column({ name: 'area_name', nullable: true })
   @Field(() => String, { description: `Area's Name of the team` })
   areaName: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { description: 'Address of the team' })
   address: string;
 

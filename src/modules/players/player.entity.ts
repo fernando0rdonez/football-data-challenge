@@ -9,19 +9,19 @@ export class Player {
   @Field(() => Int, { description: `Player's id` })
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { description: 'Name of the player' })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { description: 'Position of the player' })
   position: string;
 
-  @Column({ name: 'date_birth' })
+  @Column({ name: 'date_birth', nullable: true })
   @Field(() => String, { description: 'Date of birth day' })
   dateOfBirth: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { description: 'Nationality of the player' })
   nationality: string;
 

@@ -13,23 +13,7 @@ export class CreateTeamImport {
 
   address: string;
 
-  squad: Player[];
-
-  area: Area;
-}
-
-export class CreateTeamDto {
-  id: number;
-
-  name: string;
-
-  tla: string;
-
-  shortName: string;
-
-  areaName?: string;
-
-  address: string;
-
   squad?: Player[];
+
+  area?: Area;
 }

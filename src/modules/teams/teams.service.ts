@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTeamDto, CreateTeamImport } from './dto/create-team.input';
+import { CreateTeamImport } from './dto/create-team.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Team } from './team.entity';
@@ -31,7 +31,7 @@ export class TeamsService {
     return 'This action adds a new team';
   }
 
-  async createTeam(teamsInput: CreateTeamDto, competition: Competition) {
+  async createTeam(teamsInput: CreateTeamImport, competition: Competition) {
     const team = await this.teamRepository.findOne({
       where: { id: teamsInput.id },
       relations: ['competitions'],
