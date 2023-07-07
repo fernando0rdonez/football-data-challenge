@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTeamImport } from './dto/create-team.input';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Team } from './team.entity';
 import { Competition } from '../competitions/competition.entity';
 import { PlayersService } from '../players/players.service';
@@ -50,7 +50,14 @@ export class TeamsService {
       this.playerService.createFromArray(teamsInput.squad, newTeam);
     }
   }
-  findByName(teamName: string) {
-    return `This action returns a team by #${teamName} `;
+
+  async findByName(name: string) {
+    return this.teamRepository.find({
+      where: { name: Like(`%${name}%`) },
+    });
+  }
+
+  async players(idTeam: number) {
+    return this.playerService.findByTeamId([idTeam]);
   }
 }

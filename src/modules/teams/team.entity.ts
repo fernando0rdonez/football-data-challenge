@@ -18,19 +18,25 @@ export class Team {
   id: number;
 
   @Column({ nullable: true })
-  @Field(() => String, { description: 'Name of the team' })
+  @Field(() => String, { description: 'Name of the team', nullable: true })
   name: string;
 
   @Column({ nullable: true })
-  @Field(() => String, { description: 'tla of the team' })
+  @Field(() => String, { description: 'tla of the team', nullable: true })
   tla: string;
 
   @Column({ name: 'short_name', nullable: true })
-  @Field(() => String, { description: 'short Name of the team' })
+  @Field(() => String, {
+    description: 'short Name of the team',
+    nullable: true,
+  })
   shortName: string;
 
   @Column({ name: 'area_name', nullable: true })
-  @Field(() => String, { description: `Area's Name of the team` })
+  @Field(() => String, {
+    description: `Area's Name of the team`,
+    nullable: true,
+  })
   areaName: string;
 
   @Column({ nullable: true })

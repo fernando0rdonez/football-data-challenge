@@ -50,16 +50,16 @@ type Team {
   id: Int!
 
   """Name of the team"""
-  name: String!
+  name: String
 
   """tla of the team"""
-  tla: String!
+  tla: String
 
   """short Name of the team"""
-  shortName: String!
+  shortName: String
 
   """Area's Name of the team"""
-  areaName: String!
+  areaName: String
 
   """Address of the team"""
   address: String!
@@ -72,7 +72,7 @@ type Team {
 }
 
 type Query {
-  team(teamName: String!): Team!
+  team(teamName: String!): [Team!]!
   players(leagueCode: String!): [Player!]!
 }
 
