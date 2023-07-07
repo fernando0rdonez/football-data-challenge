@@ -31,5 +31,5 @@ export class CreateTeamDto {
 
   address: string;
 
-  players?: Player[];
+  squad?: Player[];
 }

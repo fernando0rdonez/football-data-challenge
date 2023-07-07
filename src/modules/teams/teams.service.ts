@@ -4,12 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Team } from './team.entity';
 import { Competition } from '../competitions/competition.entity';
+import { PlayersService } from '../players/players.service';
 
 @Injectable()
 export class TeamsService {
   constructor(
     @InjectRepository(Team)
     private teamRepository: Repository<Team>,
+    private playerService: PlayersService,
   ) {}
   async createFromArray(
     teamsInput: CreateTeamImport[],
@@ -44,6 +46,8 @@ export class TeamsService {
       const newTeam = this.teamRepository.create(teamsInput);
       newTeam.competitions = [competition];
       await this.teamRepository.save(newTeam);
+
+      this.playerService.createFromArray(teamsInput.squad, newTeam);
     }
   }
   findByName(teamName: string) {

@@ -3,6 +3,7 @@ import { CreatePlayerInput } from './dto/create-player.input';
 import { Player } from './player.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Team } from '../teams/team.entity';
 
 @Injectable()
 export class PlayersService {
@@ -10,8 +11,18 @@ export class PlayersService {
     @InjectRepository(Player)
     private playerRepository: Repository<Player>,
   ) {}
-  create(input: CreatePlayerInput[]) {
-    return 'This action adds a new player ';
+  async createFromArray(inputCreateArray: CreatePlayerInput[], team: Team) {
+    const teamsPromises = inputCreateArray.map((input) => {
+      return this.savePlayer({
+        ...input,
+        team: team,
+      });
+    });
+    await Promise.all(teamsPromises);
+  }
+
+  savePlayer(input: CreatePlayerInput) {
+    return this.playerRepository.save(input);
   }
 
   findByleagueCode(leageCode: string) {
