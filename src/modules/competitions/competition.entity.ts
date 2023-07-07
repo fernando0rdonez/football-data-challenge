@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Team } from 'src/modules/teams/team.entity';
-import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -17,13 +17,24 @@ export class Competition {
   @Field(() => String, { description: 'Code of the competition' })
   code: string;
 
-  @Column()
+  @Column({ name: 'area_name' })
   @Field(() => String, {
     description: 'Name of the area that the competition belongs',
   })
   areaName: string;
 
   @ManyToMany(() => Team, (team) => team.competitions)
+  @JoinTable({
+    name: 'competition_team',
+    joinColumn: {
+      name: 'competition_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'team_id',
+      referencedColumnName: 'id',
+    },
+  })
   @Field(() => [Team], {
     nullable: true,
     description: 'List of teams that belongs to the competitions',

@@ -66,7 +66,7 @@ type Team {
   """Player of the team"""
   players: [Player!]
 
-  """Player of the team"""
+  """Competitions of the team"""
   competitions: [Competition!]!
 }
 
@@ -76,26 +76,5 @@ type Query {
 }
 
 type Mutation {
-  createTeam(createTeamInput: CreateTeamInput!): Team!
   importLeague(leagueCode: String!): ResponseImport!
-}
-
-input CreateTeamInput {
-  """team's id"""
-  id: Int!
-
-  """Name of the team"""
-  name: String!
-
-  """tla of the team"""
-  tla: String!
-
-  """short Name of the team"""
-  shortName: String!
-
-  """Area's Name of the team"""
-  areaName: String!
-
-  """Address of the team"""
-  address: String!
 }

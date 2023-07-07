@@ -1,6 +1,14 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Player } from 'src/modules/players/player.entity';
-import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
 import { Competition } from '../competitions/competition.entity';
 
 @Entity()
@@ -18,11 +26,11 @@ export class Team {
   @Field(() => String, { description: 'tla of the team' })
   tla: string;
 
-  @Column()
+  @Column({ name: 'short_name' })
   @Field(() => String, { description: 'short Name of the team' })
   shortName: string;
 
-  @Column()
+  @Column({ name: 'area_name' })
   @Field(() => String, { description: `Area's Name of the team` })
   areaName: string;
 
@@ -31,15 +39,16 @@ export class Team {
   address: string;
 
   @OneToMany(() => Player, (player) => player.team)
+  @JoinColumn({ name: 'team_id' })
   @Field(() => [Player], {
     description: 'Player of the team',
     nullable: true,
   })
   players?: Player[];
 
-  @ManyToMany(() => Competition)
+  @ManyToMany(() => Competition, (competition) => competition.teams)
   @Field(() => [Competition], {
-    description: 'Player of the team',
+    description: 'Competitions of the team',
   })
   competitions?: Competition[];
 }

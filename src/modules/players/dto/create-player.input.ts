@@ -1,4 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
+import { Team } from '../../teams/team.entity';
 
 @InputType()
 export class CreatePlayerInput {
@@ -17,8 +18,8 @@ export class CreatePlayerInput {
   @Field(() => String, { description: 'Nationality of the player' })
   nationality: string;
 
-  // @Field(() => Team, {
-  //   description: 'Team that the player belong',
-  // })
-  // team: Team;
+  @Field(() => Team, {
+    description: 'Team that the player belong',
+  })
+  team: Team;
 }

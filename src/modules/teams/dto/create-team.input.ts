@@ -1,27 +1,35 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
-
-@InputType()
-export class CreateTeamInput {
-  @Field(() => Int, { description: `team's id` })
+import { Area } from 'src/providers/data.interface';
+import { Player } from '../../players/player.entity';
+export class CreateTeamImport {
   id: number;
 
-  @Field(() => String, { description: 'Name of the team' })
   name: string;
 
-  @Field(() => String, { description: 'tla of the team' })
   tla: string;
 
-  @Field(() => String, { description: 'short Name of the team' })
   shortName: string;
 
-  @Field(() => String, { description: `Area's Name of the team` })
-  areaName: string;
+  areaName?: string;
 
-  @Field(() => String, { description: 'Address of the team' })
   address: string;
 
-  // @Field(() => [Player], {
-  //   description: 'Player of the team',
-  // })
-  // players: Player[];
+  squad: Player[];
+
+  area: Area;
+}
+
+export class CreateTeamDto {
+  id: number;
+
+  name: string;
+
+  tla: string;
+
+  shortName: string;
+
+  areaName?: string;
+
+  address: string;
+
+  players?: Player[];
 }

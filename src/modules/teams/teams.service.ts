@@ -1,18 +1,52 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTeamInput } from './dto/create-team.input';
-import { UpdateTeamInput } from './dto/update-team.input';
+import { CreateTeamDto, CreateTeamImport } from './dto/create-team.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Team } from './team.entity';
+import { Competition } from '../competitions/competition.entity';
 
 @Injectable()
 export class TeamsService {
-  create(createTeamInput: CreateTeamInput) {
+  constructor(
+    @InjectRepository(Team)
+    private teamRepository: Repository<Team>,
+  ) {}
+  async createFromArray(
+    teamsInput: CreateTeamImport[],
+    competition: Competition,
+  ) {
+    const teamsPromises = teamsInput.map((team) => {
+      return this.createTeam(
+        {
+          ...team,
+          areaName: team.area.name,
+        },
+        competition,
+      );
+    });
+    await Promise.all(teamsPromises);
+
     return 'This action adds a new team';
   }
 
+  async createTeam(teamsInput: CreateTeamDto, competition: Competition) {
+    const team = await this.teamRepository.findOne({
+      where: { id: teamsInput.id },
+      relations: ['competitions'],
+    });
+
+    if (team) {
+      if (team.competitions.every((c) => c.id !== competition.id)) {
+        team.competitions.push(competition);
+        await this.teamRepository.save(team);
+      }
+    } else {
+      const newTeam = this.teamRepository.create(teamsInput);
+      newTeam.competitions = [competition];
+      await this.teamRepository.save(newTeam);
+    }
+  }
   findByName(teamName: string) {
     return `This action returns a team by #${teamName} `;
-  }
-
-  update(id: number, updateTeamInput: UpdateTeamInput) {
-    return `This action updates a #${id} team`;
   }
 }
