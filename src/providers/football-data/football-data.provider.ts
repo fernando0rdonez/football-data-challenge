@@ -1,7 +1,10 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { CompetitionResponse } from '../data.interface';
+import {
+  CompetitionResponse,
+  CompetitionTeamsResponse,
+} from '../data.interface';
 
 @Injectable()
 export class FootballDataProvider {
@@ -20,8 +23,13 @@ export class FootballDataProvider {
     return response;
   }
 
-  async getLeague(leagueName: string): Promise<CompetitionResponse> {
+  async getLeagueTeams(leagueName: string): Promise<CompetitionTeamsResponse> {
     const url = `${this.url}/v4/competitions/${leagueName}/teams`;
+    return this.fetchData<CompetitionTeamsResponse>(url);
+  }
+
+  async getLeague(leagueName: string): Promise<CompetitionResponse> {
+    const url = `${this.url}/v4/competitions/${leagueName}`;
     return this.fetchData<CompetitionResponse>(url);
   }
 }

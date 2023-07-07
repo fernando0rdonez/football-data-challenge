@@ -37,7 +37,11 @@ interface Team {
   squad: Player[];
 }
 
-export interface CompetitionResponse {
+export interface CompetitionTeamsResponse {
   teams: Team[];
   competition: Competition;
+}
+
+export interface CompetitionResponse extends Competition {
+  area: Area;
 }
