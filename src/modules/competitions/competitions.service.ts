@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Competition } from './competition.entity';
 import { Repository } from 'typeorm';
 import { TeamsService } from '../teams/teams.service';
+import { PlayersService } from '../players/players.service';
 
 @Injectable()
 export class CompetitionsService {
@@ -13,6 +14,7 @@ export class CompetitionsService {
     @InjectRepository(Competition)
     private competitionRepository: Repository<Competition>,
     private teamService: TeamsService,
+    private playersService: PlayersService,
   ) {}
   async importLeague(leageCode: string) {
     const { teams, competition: competitionData }: CompetitionResponse =
@@ -23,5 +25,14 @@ export class CompetitionsService {
     await this.teamService.createFromArray(teams, competition);
 
     return { message: `This action import a #${leageCode} league` };
+  }
+
+  async findByleagueCode(leageCode: string) {
+    const league = await this.competitionRepository.findOne({
+      where: { code: leageCode },
+      relations: ['teams'],
+    });
+    const teamIds = league.teams.map((team) => team.id);
+    return this.playersService.findByTeamId(teamIds);
   }
 }

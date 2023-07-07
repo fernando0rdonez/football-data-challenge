@@ -25,7 +25,11 @@ export class PlayersService {
     return this.playerRepository.save(input);
   }
 
-  findByleagueCode(leageCode: string) {
-    return `This action find Player by givin #${leageCode} `;
+  async findByTeamId(teamIds: number[]) {
+    return await this.playerRepository
+      .createQueryBuilder('player')
+      .leftJoin('player.team', 'team')
+      .where('team.id IN (:...teamIds)', { teamIds })
+      .getMany();
   }
 }
