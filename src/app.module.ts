@@ -8,6 +8,8 @@ import { CompetitionsModule } from './modules/competitions/competitions.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnectionData } from './config/orm.config';
+import { APP_FILTER } from '@nestjs/core';
+import { CustomExceptionFilter } from './filters/gql-exception.filter';
 
 @Module({
   imports: [
@@ -27,7 +29,11 @@ import { getConnectionData } from './config/orm.config';
     PlayersModule,
     CompetitionsModule,
   ],
-  controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: CustomExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}
