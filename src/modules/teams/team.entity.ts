@@ -40,7 +40,7 @@ export class Team {
   areaName: string;
 
   @Column({ nullable: true })
-  @Field(() => String, { description: 'Address of the team' })
+  @Field(() => String, { description: 'Address of the team', nullable: true })
   address: string;
 
   @OneToMany(() => Player, (player) => player.team)
@@ -54,6 +54,7 @@ export class Team {
   @ManyToMany(() => Competition, (competition) => competition.teams)
   @Field(() => [Competition], {
     description: 'Competitions of the team',
+    nullable: true,
   })
   competitions?: Competition[];
 }

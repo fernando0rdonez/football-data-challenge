@@ -4,16 +4,16 @@
 
 type Competition {
   """id of the competition"""
-  id: Int!
+  id: Int
 
   """Name of the competition"""
-  name: String!
+  name: String
 
   """Code of the competition"""
-  code: String!
+  code: String
 
   """Name of the area that the competition belongs"""
-  areaName: String!
+  areaName: String
 
   """List of teams that belongs to the competitions"""
   teams: [Team!]
@@ -29,16 +29,16 @@ type Player {
   id: Int!
 
   """Name of the player"""
-  name: String!
+  name: String
 
   """Position of the player"""
-  position: String!
+  position: String
 
   """Date of birth day"""
-  dateOfBirth: String!
+  dateOfBirth: String
 
   """Nationality of the player"""
-  nationality: String!
+  nationality: String
 
   """Team that the player belong"""
   team: Team
@@ -61,13 +61,13 @@ type Team {
   areaName: String
 
   """Address of the team"""
-  address: String!
+  address: String
 
   """Player of the team"""
   players: [Player!]
 
   """Competitions of the team"""
-  competitions: [Competition!]!
+  competitions: [Competition!]
 }
 
 type Query {

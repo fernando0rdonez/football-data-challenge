@@ -6,20 +6,27 @@ import { Team } from '../teams/team.entity';
 @ObjectType()
 export class Competition {
   @PrimaryColumn()
-  @Field(() => Int, { description: 'id of the competition' })
+  @Field(() => Int, { description: 'id of the competition', nullable: true })
   id: number;
 
   @Column()
-  @Field(() => String, { description: 'Name of the competition' })
+  @Field(() => String, {
+    description: 'Name of the competition',
+    nullable: true,
+  })
   name: string;
 
   @Column()
-  @Field(() => String, { description: 'Code of the competition' })
+  @Field(() => String, {
+    description: 'Code of the competition',
+    nullable: true,
+  })
   code: string;
 
   @Column({ name: 'area_name' })
   @Field(() => String, {
     description: 'Name of the area that the competition belongs',
+    nullable: true,
   })
   areaName: string;
 
