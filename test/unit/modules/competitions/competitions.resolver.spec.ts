@@ -7,6 +7,7 @@ import {
   mockCreatePlayer,
   mockTeamCreated,
 } from '../../../mock-data';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 describe('CompetitionsResolver', () => {
   let resolver: CompetitionsResolver;
@@ -15,6 +16,12 @@ describe('CompetitionsResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        ThrottlerModule.forRoot({
+          ttl: 60,
+          limit: 10,
+        }),
+      ],
       providers: [
         CompetitionsResolver,
         {
