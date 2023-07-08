@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnectionData } from './config/orm.config';
 import { APP_FILTER } from '@nestjs/core';
 import { CustomExceptionFilter } from './filters/gql-exception.filter';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -24,6 +25,10 @@ import { CustomExceptionFilter } from './filters/gql-exception.filter';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: () => getConnectionData,
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
     }),
     TeamsModule,
     PlayersModule,
