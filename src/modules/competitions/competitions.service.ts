@@ -41,13 +41,16 @@ export class CompetitionsService {
 
   async findByleagueCode(leageCode: string) {
     this.logger.log(`Starting to searh teams for the league ${leageCode}`);
-
-    const league = await this.competitionRepository.findOne({
-      where: { code: leageCode },
-      relations: ['teams'],
-    });
-    const teamIds = league.teams.map((team) => team.id);
-    return this.playersService.findByTeamId(teamIds);
+    try {
+      const league = await this.competitionRepository.findOne({
+        where: { code: leageCode },
+        relations: ['teams'],
+      });
+      const teamIds = league.teams.map((team) => team.id);
+      return this.playersService.findByTeamId(teamIds);
+    } catch (error) {
+      return new NotFountException('Competition');
+    }
   }
 
   async getCompetition(leageCode: string): Promise<Competition> {

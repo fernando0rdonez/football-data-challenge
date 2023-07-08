@@ -1,19 +1,35 @@
-import { Catch, ExceptionFilter, ArgumentsHost } from '@nestjs/common';
+import {
+  Catch,
+  ExceptionFilter,
+  ArgumentsHost,
+  HttpStatus,
+} from '@nestjs/common';
 import { GqlArgumentsHost } from '@nestjs/graphql';
 import { CustomException } from '../common/exceptions/custom-execption';
 
-@Catch(CustomException)
+@Catch()
 export class CustomExceptionFilter implements ExceptionFilter {
-  catch(exception: CustomException, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const gqlHost = GqlArgumentsHost.create(host);
     const context = gqlHost.getContext();
-    const response = context.req.res;
+    const response = context?.req?.res;
 
-    response.status(exception.getStatus()).json({
-      __typename: exception.getTypeName(),
-      statusCode: exception.getStatus(),
-      message: exception.message,
-      code: exception.getCodeName(),
+    let statusCode = HttpStatus.OK;
+    let message = exception.message;
+    let code = 'UNNOWK_ERROR';
+    let typename = 'GLOBAL';
+    if (exception instanceof CustomException) {
+      statusCode = exception.getStatus();
+      message = exception.message;
+      code = exception.getCodeName();
+      typename = exception.getTypeName();
+    }
+
+    response?.status(statusCode)?.json({
+      __typename: typename,
+      statusCode: statusCode,
+      message: message,
+      code: code,
     });
   }
 }

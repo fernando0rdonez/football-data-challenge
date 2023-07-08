@@ -132,6 +132,18 @@ describe('CompetitionsService', () => {
       expect(playersService.findByTeamId).toHaveBeenCalledWith(teamIds);
       expect(result).toEqual(expectedPlayers);
     });
+
+    it('should throw a error', async () => {
+      const leagueCode = 'PL';
+
+      jest.spyOn(competitionRepository, 'findOne').mockResolvedValueOnce(null);
+
+      await service.findByleagueCode(leagueCode);
+
+      await expect(service.getCompetition(leagueCode)).rejects.toThrowError(
+        TypeError,
+      );
+    });
   });
 
   describe('getCompetition', () => {
@@ -151,7 +163,7 @@ describe('CompetitionsService', () => {
     });
 
     it('should throw NotFoundException if competition is not found', async () => {
-      const leagueCode = 'example';
+      const leagueCode = 'PL';
 
       jest
         .spyOn(competitionRepository, 'findOne')
