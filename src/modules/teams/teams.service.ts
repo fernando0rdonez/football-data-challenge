@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateTeamImport } from './dto/create-team.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
@@ -8,6 +8,8 @@ import { PlayersService } from '../players/players.service';
 
 @Injectable()
 export class TeamsService {
+  private readonly logger = new Logger('TeamsService');
+
   constructor(
     @InjectRepository(Team)
     private teamRepository: Repository<Team>,
@@ -17,6 +19,8 @@ export class TeamsService {
     teamsInput: CreateTeamImport[],
     competition: Competition,
   ) {
+    this.logger.log(`Starting to save teams into db`);
+
     const teamsPromises = teamsInput.map((team) => {
       return this.createTeam(
         {
@@ -27,6 +31,7 @@ export class TeamsService {
       );
     });
     await Promise.all(teamsPromises);
+    this.logger.log(`Process of save teams was completed`);
 
     return 'This action adds a new team';
   }
@@ -40,6 +45,9 @@ export class TeamsService {
     if (team) {
       if (team.competitions.every((c) => c.id !== competition.id)) {
         team.competitions.push(competition);
+        this.logger.log(
+          `Team already exist into db is necesary add the new relatioship with the competition`,
+        );
 
         await this.teamRepository.save(team);
       }
@@ -53,6 +61,8 @@ export class TeamsService {
   }
 
   async findByName(name: string) {
+    this.logger.log(`Searching a team by name: ${name}`);
+
     return this.teamRepository.find({
       where: { name: Like(`%${name}%`) },
     });
@@ -63,6 +73,8 @@ export class TeamsService {
   }
 
   async findByLeagueId(leagueId: number) {
+    this.logger.log(`Searching a team by league: ${leagueId}`);
+
     return await this.teamRepository
       .createQueryBuilder('team')
       .innerJoin('team.competitions', 'competitions')

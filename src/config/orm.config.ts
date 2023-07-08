@@ -15,7 +15,7 @@ export const getConnectionData: TypeOrmModuleOptions = {
   database: process.env.TYPEORM_DATABASE.toString(),
   synchronize: true,
   migrationsRun: false,
-  logging: true,
+  logging: false,
   entities: [Competition, Team, Player],
   migrations: [__dirname + '/../module/migration/*.[tj]s'],
 };

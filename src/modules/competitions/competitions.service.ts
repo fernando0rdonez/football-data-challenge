@@ -22,6 +22,7 @@ export class CompetitionsService {
     private playersService: PlayersService,
   ) {}
   async importLeague(leageCode: string) {
+    this.logger.log(`Starting to getting the data for the league ${leageCode}`);
     const { area }: CompetitionResponse =
       await this.footbalDataProvider.getLeague(leageCode);
 
@@ -30,12 +31,17 @@ export class CompetitionsService {
 
     const competitionDto = { ...competitionData, areaName: area.name };
     const competition = await this.competitionRepository.save(competitionDto);
+
+    this.logger.log(`Starting to save teams for the league ${leageCode}`);
     await this.teamService.createFromArray(teams, competition);
+    this.logger.log(`Import finish. League: ${leageCode}`);
 
     return { message: `This action import a league with code #${leageCode} ` };
   }
 
   async findByleagueCode(leageCode: string) {
+    this.logger.log(`Starting to searh teams for the league ${leageCode}`);
+
     const league = await this.competitionRepository.findOne({
       where: { code: leageCode },
       relations: ['teams'],
@@ -45,10 +51,10 @@ export class CompetitionsService {
   }
 
   async getCompetition(leageCode: string): Promise<Competition> {
+    this.logger.log(`Search a competition by code ${leageCode}`);
     const competition = await this.competitionRepository.findOne({
       where: { code: leageCode },
     });
-    this.logger.log(`After search a competition by code ${leageCode}`);
     if (!competition) {
       throw new NotFountException('Competition');
     }
