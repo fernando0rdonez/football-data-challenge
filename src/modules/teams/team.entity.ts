@@ -1,5 +1,4 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Player } from 'src/modules/players/player.entity';
 import {
   Column,
   Entity,
@@ -9,6 +8,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { Competition } from '../competitions/competition.entity';
+import { Player } from '../players/player.entity';
 
 @Entity()
 @ObjectType()

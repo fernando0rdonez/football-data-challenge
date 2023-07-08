@@ -40,6 +40,7 @@ export class TeamsService {
     if (team) {
       if (team.competitions.every((c) => c.id !== competition.id)) {
         team.competitions.push(competition);
+
         await this.teamRepository.save(team);
       }
     } else {

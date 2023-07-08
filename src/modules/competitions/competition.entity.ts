@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Team } from 'src/modules/teams/team.entity';
 import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
+import { Team } from '../teams/team.entity';
 
 @Entity()
 @ObjectType()

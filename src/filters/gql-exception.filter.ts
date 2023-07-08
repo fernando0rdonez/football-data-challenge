@@ -1,6 +1,6 @@
 import { Catch, ExceptionFilter, ArgumentsHost } from '@nestjs/common';
 import { GqlArgumentsHost } from '@nestjs/graphql';
-import { CustomException } from 'src/common/exceptions/custom-execption';
+import { CustomException } from '../common/exceptions/custom-execption';
 
 @Catch(CustomException)
 export class CustomExceptionFilter implements ExceptionFilter {

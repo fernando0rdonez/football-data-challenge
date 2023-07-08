@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { FootballDataProvider } from '../../providers/football-data/football-data.provider';
 import {
   CompetitionTeamsResponse,
@@ -9,7 +9,6 @@ import { Competition } from './competition.entity';
 import { Repository } from 'typeorm';
 import { TeamsService } from '../teams/teams.service';
 import { PlayersService } from '../players/players.service';
-import { CustomException } from 'src/common/exceptions/custom-execption';
 import { NotFountException } from '../../common/exceptions/not-found';
 
 @Injectable()
@@ -33,7 +32,7 @@ export class CompetitionsService {
     const competition = await this.competitionRepository.save(competitionDto);
     await this.teamService.createFromArray(teams, competition);
 
-    return { message: `This action import a #${leageCode} league` };
+    return { message: `This action import a league with code #${leageCode} ` };
   }
 
   async findByleagueCode(leageCode: string) {

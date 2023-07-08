@@ -15,7 +15,7 @@ export class FootballDataProvider {
     this.url = process.env.DATA_PROVIDER_URL;
   }
 
-  private async fetchData<T>(url: string): Promise<T> {
+  async fetchData<T>(url: string): Promise<T> {
     const headers = { 'X-Auth-Token': this.token };
     const { data: response } = await lastValueFrom(
       this.httpService.get<T>(url, { headers }),

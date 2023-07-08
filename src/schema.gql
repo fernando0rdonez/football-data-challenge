@@ -2,26 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Player {
-  """Player's id"""
-  id: Int!
-
-  """Name of the player"""
-  name: String!
-
-  """Position of the player"""
-  position: String!
-
-  """Date of birth day"""
-  dateOfBirth: String!
-
-  """Nationality of the player"""
-  nationality: String!
-
-  """Team that the player belong"""
-  team: Team
-}
-
 type Competition {
   """id of the competition"""
   id: Int!
@@ -42,6 +22,26 @@ type Competition {
 type ResponseImport {
   """Name of the area that the competition belongs"""
   message: String!
+}
+
+type Player {
+  """Player's id"""
+  id: Int!
+
+  """Name of the player"""
+  name: String!
+
+  """Position of the player"""
+  position: String!
+
+  """Date of birth day"""
+  dateOfBirth: String!
+
+  """Nationality of the player"""
+  nationality: String!
+
+  """Team that the player belong"""
+  team: Team
 }
 
 type Team {
