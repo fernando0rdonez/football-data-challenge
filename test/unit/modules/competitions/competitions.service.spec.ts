@@ -132,6 +132,32 @@ describe('CompetitionsService', () => {
       expect(playersService.findByTeamId).toHaveBeenCalledWith(teamIds);
       expect(result).toEqual(expectedPlayers);
     });
+    it('should find players by league code and team name', async () => {
+      const leagueCode = 'BSA';
+      const teamName = 'Fortaleza EC';
+      const league = {
+        ...mockCompetition,
+        teams: [mockTeamCreated, mockTeamCreated],
+      };
+      const teamIds = league.teams.map((team) => team.id);
+      const expectedPlayers = [player, player];
+
+      jest
+        .spyOn(competitionRepository, 'findOne')
+        .mockResolvedValueOnce(league);
+      jest
+        .spyOn(playersService, 'findByTeamId')
+        .mockResolvedValueOnce(expectedPlayers);
+
+      const result = await service.findByleagueCode(leagueCode, teamName);
+
+      expect(competitionRepository.findOne).toHaveBeenCalledWith({
+        where: { code: leagueCode, teams: { name: teamName } },
+        relations: ['teams'],
+      });
+      expect(playersService.findByTeamId).toHaveBeenCalledWith(teamIds);
+      expect(result).toEqual(expectedPlayers);
+    });
 
     it('should throw a error', async () => {
       const leagueCode = 'PL';

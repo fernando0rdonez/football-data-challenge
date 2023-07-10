@@ -81,6 +81,24 @@ describe('CompetitionsResolver', () => {
 
       expect(competitionsService.findByleagueCode).toHaveBeenCalledWith(
         leagueCode,
+        undefined,
+      );
+      expect(result).toEqual(expectedPlayers);
+    });
+
+    it('should call competitionsService.findByleagueCode with the given league code and team name', async () => {
+      const leagueCode = 'BSA';
+      const expectedPlayers = [mockCreatePlayer, mockCreatePlayer];
+
+      jest
+        .spyOn(competitionsService, 'findByleagueCode')
+        .mockResolvedValueOnce(expectedPlayers);
+
+      const result = await resolver.players(leagueCode, 'Fortaleza EC');
+
+      expect(competitionsService.findByleagueCode).toHaveBeenCalledWith(
+        leagueCode,
+        'Fortaleza EC',
       );
       expect(result).toEqual(expectedPlayers);
     });

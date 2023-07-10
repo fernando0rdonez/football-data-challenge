@@ -73,7 +73,7 @@ type Team {
 type Query {
   team(teamName: String!): [Team!]!
   teamCompetition(idLeague: Int!): [Team!]!
-  players(leagueCode: String!): [Player!]!
+  players(leagueCode: String!, teamName: String): [Player!]!
   competition(leagueCode: String!): Competition!
 }
 

@@ -28,8 +28,11 @@ export class CompetitionsResolver {
   }
 
   @Query(() => [Player], { name: 'players' })
-  players(@Args('leagueCode', { type: () => String }) leageCode: string) {
-    return this.competitionsService.findByleagueCode(leageCode);
+  players(
+    @Args('leagueCode', { type: () => String }) leageCode: string,
+    @Args('teamName', { type: () => String, nullable: true }) teamName?: string,
+  ) {
+    return this.competitionsService.findByleagueCode(leageCode, teamName);
   }
 
   @ResolveField(() => [Team])

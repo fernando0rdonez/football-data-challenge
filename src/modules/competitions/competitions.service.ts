@@ -39,11 +39,16 @@ export class CompetitionsService {
     return { message: `This action import a league with code #${leageCode} ` };
   }
 
-  async findByleagueCode(leageCode: string) {
+  async findByleagueCode(leageCode: string, teamName?: string) {
     this.logger.log(`Starting to searh teams for the league ${leageCode}`);
     try {
+      const filter =
+        teamName === undefined
+          ? { code: leageCode }
+          : { code: leageCode, teams: { name: teamName } };
+
       const league = await this.competitionRepository.findOne({
-        where: { code: leageCode },
+        where: filter,
         relations: ['teams'],
       });
       const teamIds = league.teams.map((team) => team.id);
