@@ -54,7 +54,7 @@ export class CompetitionsService {
       const teamIds = league.teams.map((team) => team.id);
       return this.playersService.findByTeamId(teamIds);
     } catch (error) {
-      return new NotFountException('Competition');
+      throw new NotFountException('Competition');
     }
   }
 
