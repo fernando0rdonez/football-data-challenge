@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { Player } from './player.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CouchsModule } from '../coachs/couch.module';
+import { CoachsModule } from '../coachs/coach.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Player]), CouchsModule],
+  imports: [TypeOrmModule.forFeature([Player]), CoachsModule],
   providers: [PlayersService],
   exports: [PlayersService],
 })

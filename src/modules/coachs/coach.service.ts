@@ -5,7 +5,7 @@ import { CreateCouchInput } from './dto/create-couch.dto';
 import { Coach } from './coach.entity';
 
 @Injectable()
-export class CouchsService {
+export class CoachsService {
   private readonly logger = new Logger('PlayersService');
 
   constructor(

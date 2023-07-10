@@ -4,7 +4,7 @@ import { Player } from './player.entity';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Team } from '../teams/team.entity';
-import { CouchsService } from '../coachs/couch.service';
+import { CoachsService } from '../coachs/coach.service';
 
 @Injectable()
 export class PlayersService {
@@ -13,7 +13,7 @@ export class PlayersService {
   constructor(
     @InjectRepository(Player)
     private playerRepository: Repository<Player>,
-    private couchService: CouchsService,
+    private couchService: CoachsService,
   ) {}
   async createFromArray(inputCreateArray: CreatePlayerInput[], team: Team) {
     this.logger.log(`Starting to save players into db for team ${team.name}`);

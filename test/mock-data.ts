@@ -3,6 +3,7 @@ import { Competition } from 'src/modules/competitions/competition.entity';
 import { Area } from 'src/providers/data.interface';
 import { Player } from '../src/modules/players/player.entity';
 import { Team } from 'src/modules/teams/team.entity';
+import { CreateCouchInput } from 'src/modules/coachs/dto/create-couch.dto';
 
 export const areaNetWork: Area = {
   id: 1,
@@ -65,4 +66,11 @@ export const mockCreatePlayer: Player = {
   dateOfBirth: 'mock-dateOfBirth',
   nationality: 'mock-nationality',
   team: mockTeam,
+};
+
+export const couchData: CreateCouchInput = {
+  id: 1,
+  name: 'mock-name',
+  dateOfBirth: 'date-mock',
+  nationality: 'mock-nationality',
 };

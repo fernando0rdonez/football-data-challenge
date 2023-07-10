@@ -4,6 +4,7 @@ import { Like, Repository } from 'typeorm';
 import { TeamsService } from '../../../../src/modules/teams/teams.service';
 import { PlayersService } from '../../../../src/modules/players/players.service';
 import { Team } from '../../../../src/modules/teams/team.entity';
+import { CoachsService } from '../../../../src/modules/coachs/coach.service';
 import {
   createInput,
   mockCompetition,
@@ -31,6 +32,14 @@ describe('TeamsService', () => {
         {
           provide: getRepositoryToken(Team),
           useClass: Repository,
+        },
+
+        {
+          provide: CoachsService,
+          useFactory: () => ({
+            saveCouch: jest.fn(),
+            getByTeam: jest.fn(),
+          }),
         },
       ],
     }).compile();

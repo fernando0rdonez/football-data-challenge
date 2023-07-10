@@ -1,13 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PlayersService } from '../../../../src/modules/players/players.service';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Player } from '../../../../src/modules/players/player.entity';
 import { player, mockTeamCreated, mockCreatePlayer } from '../../../mock-data';
 import { CreatePlayerInput } from '../../../../src/modules/players/dto/create-player.input';
+import { CoachsService } from '../../../../src/modules/coachs/coach.service';
 
 describe('PlayersService', () => {
   let service: PlayersService;
+  let coachService: CoachsService;
   let playerRepository: Repository<Player>;
 
   beforeEach(async () => {
@@ -18,10 +20,18 @@ describe('PlayersService', () => {
           provide: getRepositoryToken(Player),
           useClass: Repository,
         },
+        {
+          provide: CoachsService,
+          useFactory: () => ({
+            saveCouch: jest.fn(),
+            getByTeam: jest.fn(() => Promise.resolve()),
+          }),
+        },
       ],
     }).compile();
 
     service = module.get<PlayersService>(PlayersService);
+    coachService = module.get<CoachsService>(CoachsService);
     playerRepository = module.get<Repository<Player>>(
       getRepositoryToken(Player),
     );
@@ -65,31 +75,35 @@ describe('PlayersService', () => {
 
   describe('findByTeamId', () => {
     it('should find players by team ids', async () => {
-      const teamIds = [1, 2, 3];
+      const teamIds = [1, 2];
       const expectedPlayers: Player[] = [mockCreatePlayer, mockCreatePlayer];
 
-      const queryBuilder = {
-        leftJoin: jest.fn().mockReturnThis(),
-        where: jest.fn().mockReturnThis(),
-        getMany: jest.fn().mockResolvedValueOnce(expectedPlayers),
-      };
-
       jest
-        .spyOn(playerRepository, 'createQueryBuilder')
-        .mockReturnValue(queryBuilder as any);
+        .spyOn(playerRepository, 'find')
+        .mockResolvedValueOnce(expectedPlayers);
 
       const result = await service.findByTeamId(teamIds);
 
-      expect(playerRepository.createQueryBuilder).toHaveBeenCalledWith(
-        'player',
-      );
-      expect(queryBuilder.leftJoin).toHaveBeenCalledWith('player.team', 'team');
-      expect(queryBuilder.where).toHaveBeenCalledWith(
-        'team.id IN (:...teamIds)',
-        { teamIds },
-      );
-      expect(queryBuilder.getMany).toHaveBeenCalled();
+      expect(playerRepository.find).toHaveBeenCalledWith({
+        where: { team: { id: In(teamIds) } },
+      });
       expect(result).toEqual(expectedPlayers);
+    });
+
+    it('should return coach by team ids', async () => {
+      const teamIds = [1, 2];
+      const expectedPlayers: Player[] = [];
+
+      jest
+        .spyOn(playerRepository, 'find')
+        .mockResolvedValueOnce(expectedPlayers);
+
+      await service.findByTeamId(teamIds);
+
+      expect(playerRepository.find).toHaveBeenCalledWith({
+        where: { team: { id: In(teamIds) } },
+      });
+      expect(coachService.getByTeam).toHaveBeenCalledWith(teamIds);
     });
   });
 });
