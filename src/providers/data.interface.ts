@@ -11,11 +11,11 @@ export interface Competition {
   code: string;
   type: string;
 }
-interface Couch {
-  id: number;
-  name: string;
-  dateOfBirth: string;
-  nationality: string;
+export interface Coach {
+  id?: number;
+  name?: string;
+  dateOfBirth?: string;
+  nationality?: string;
 }
 
 interface Player {
@@ -33,7 +33,7 @@ interface Team {
   shortName: string;
   tla: string;
   address: string;
-  couch: Couch;
+  coach: Coach;
   squad: Player[];
 }
 

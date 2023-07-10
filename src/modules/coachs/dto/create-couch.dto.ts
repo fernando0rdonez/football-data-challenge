@@ -1,13 +1,10 @@
 import { InputType } from '@nestjs/graphql';
 import { Team } from '../../teams/team.entity';
-
 @InputType()
-export class CreatePlayerInput {
+export class CreateCouchInput {
   id?: number;
 
   name?: string;
-
-  position?: string;
 
   dateOfBirth?: string;
 

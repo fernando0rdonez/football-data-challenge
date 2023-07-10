@@ -1,37 +1,45 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Field, Int } from '@nestjs/graphql';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Team } from '../teams/team.entity';
 
 @Entity()
-@ObjectType()
-export class Player {
-  @PrimaryColumn()
-  @Field(() => Int, { description: `Player's id`, nullable: true })
+export class Coach {
+  @PrimaryGeneratedColumn()
+  idRequired: number;
+
+  @Column({ nullable: true })
+  @Field(() => Int, { description: `Couch's id`, nullable: true })
   id?: number;
 
   @Column({ nullable: true })
   @Field(() => String, { description: 'Name of the player', nullable: true })
-  name: string;
+  name?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 'couch' })
   @Field(() => String, {
     description: 'Position of the player',
     nullable: true,
   })
-  position: string;
+  position?: string;
 
   @Column({ name: 'date_birth', nullable: true })
   @Field(() => String, { description: 'Date of birth day', nullable: true })
-  dateOfBirth: string;
+  dateOfBirth?: string;
 
   @Column({ nullable: true })
   @Field(() => String, {
-    description: 'Nationality of the player',
+    description: 'Nationality of the coach',
     nullable: true,
   })
-  nationality: string;
+  nationality?: string;
 
-  @ManyToOne(() => Team, (team) => team.players, { nullable: true })
+  @OneToOne(() => Team)
   @JoinColumn({ name: 'team_id' })
   @Field(() => Team, {
     nullable: true,

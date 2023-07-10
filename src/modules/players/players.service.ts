@@ -1,9 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreatePlayerInput } from './dto/create-player.input';
 import { Player } from './player.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Team } from '../teams/team.entity';
+import { CouchsService } from '../coachs/couch.service';
 
 @Injectable()
 export class PlayersService {
@@ -12,6 +13,7 @@ export class PlayersService {
   constructor(
     @InjectRepository(Player)
     private playerRepository: Repository<Player>,
+    private couchService: CouchsService,
   ) {}
   async createFromArray(inputCreateArray: CreatePlayerInput[], team: Team) {
     this.logger.log(`Starting to save players into db for team ${team.name}`);
@@ -23,6 +25,7 @@ export class PlayersService {
       });
     });
     await Promise.all(teamsPromises);
+
     this.logger.log(`Players stored for the team: ${team.name}`);
   }
 
@@ -31,12 +34,13 @@ export class PlayersService {
   }
 
   async findByTeamId(teamIds: number[]) {
-    this.logger.log(`Searching for players by teamId`);
+    this.logger.log(`Searching for players by teamId ${teamIds}`);
+    const response = await this.playerRepository.find({
+      where: { team: { id: In(teamIds) } },
+    });
 
-    return await this.playerRepository
-      .createQueryBuilder('player')
-      .leftJoin('player.team', 'team')
-      .where('team.id IN (:...teamIds)', { teamIds })
-      .getMany();
+    if (response.length > 0) return response;
+    this.logger.log(`there are not player for given team's ids ${teamIds}`);
+    return this.couchService.getByTeam(teamIds);
   }
 }

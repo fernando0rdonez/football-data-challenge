@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import { Competition } from 'src/modules/competitions/competition.entity';
 import { Player } from 'src/modules/players/player.entity';
 import { Team } from 'src/modules/teams/team.entity';
+import { Coach } from '../modules/coachs/coach.entity';
 config();
 
 export const getConnectionData: TypeOrmModuleOptions = {
@@ -16,6 +17,6 @@ export const getConnectionData: TypeOrmModuleOptions = {
   synchronize: true,
   migrationsRun: false,
   logging: false,
-  entities: [Competition, Team, Player],
+  entities: [Competition, Team, Player, Coach],
   migrations: [__dirname + '/../module/migration/*.[tj]s'],
 };

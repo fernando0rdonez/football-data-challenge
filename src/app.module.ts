@@ -11,6 +11,7 @@ import { getConnectionData } from './config/orm.config';
 import { APP_FILTER } from '@nestjs/core';
 import { CustomExceptionFilter } from './filters/gql-exception.filter';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { CouchsModule } from './modules/coachs/couch.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
       ttl: 60,
       limit: 10,
     }),
+    CouchsModule,
     TeamsModule,
     PlayersModule,
     CompetitionsModule,

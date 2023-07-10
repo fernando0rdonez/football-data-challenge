@@ -26,7 +26,7 @@ type ResponseImport {
 
 type Player {
   """Player's id"""
-  id: Int!
+  id: Int
 
   """Name of the player"""
   name: String

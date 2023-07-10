@@ -5,6 +5,7 @@ import { Like, Repository } from 'typeorm';
 import { Team } from './team.entity';
 import { Competition } from '../competitions/competition.entity';
 import { PlayersService } from '../players/players.service';
+import { CouchsService } from '../coachs/couch.service';
 
 @Injectable()
 export class TeamsService {
@@ -14,6 +15,7 @@ export class TeamsService {
     @InjectRepository(Team)
     private teamRepository: Repository<Team>,
     private playerService: PlayersService,
+    private couchService: CouchsService,
   ) {}
   async createFromArray(
     teamsInput: CreateTeamImport[],
@@ -56,6 +58,8 @@ export class TeamsService {
       newTeam.competitions = [competition];
       await this.teamRepository.save(newTeam);
 
+      const teamDto = { ...teamsInput.coach, team: newTeam };
+      this.couchService.saveCouch(teamDto);
       this.playerService.createFromArray(teamsInput.squad, newTeam);
     }
   }
