@@ -85,7 +85,7 @@ $ npm run test
 ### - Football Provider
   I created a provider called ```FootballDataProvider``` to fetch data from the REST API. Creating a provider allows us to work with modules, reuse code, and facilitate testing. If in the future we decide to fetch data from a different API, we can easily change or create another provider.
 
-
+## [Postman Documentation](https://documenter.getpostman.com/view/6049635/2s946bBa5M)
 
 ## Stay in touch
 
