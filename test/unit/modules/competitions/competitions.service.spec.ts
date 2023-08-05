@@ -161,16 +161,12 @@ describe('CompetitionsService', () => {
 
     it('should throw a error', async () => {
       const leagueCode = 'PL';
-      try {
-        jest
-          .spyOn(competitionRepository, 'findOne')
-          .mockResolvedValueOnce(null);
-        await service.findByleagueCode(leagueCode);
-      } catch (error) {
-        await expect(service.getCompetition(leagueCode)).rejects.toThrowError(
-          TypeError,
-        );
-      }
+
+      jest.spyOn(competitionRepository, 'findOne').mockResolvedValueOnce(null);
+
+      await expect(service.findByleagueCode(leagueCode)).rejects.toThrowError(
+        NotFountException,
+      );
     });
   });
 
